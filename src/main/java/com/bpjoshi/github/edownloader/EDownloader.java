@@ -11,7 +11,6 @@ import java.net.URLConnection;
 import java.util.Properties;
 
 /**
- * All the exceptions are declared in throws are supposed to be handled by you.
  * @author bpjoshi(Bhagwati Prasad)
  */
 public class EDownloader {
@@ -19,6 +18,7 @@ public class EDownloader {
 	private static final int BUFFER_SIZE = 1024 * 4;
 	
 	/**
+	 * Description of Arguments to downloadFile method:
 	 * 1. url: Enter full url of the file content to be downloaded. For example : 
 	 * 				https://www.uop.edu.jo/download/research/members/oxford_guide_to_english_grammar.pdf
 	 * 2. locationToSaveFile: Enter full name of the location where you want to save the file:
@@ -34,8 +34,6 @@ public class EDownloader {
 	 */
 	public static void downloadFile(String url, String locationToSaveWithFileName, boolean behindAProxy)
 	throws MalformedURLException, IOException {
-		
-		//Setting up proxies
 		Properties systemSettings = System.getProperties();
         systemSettings.put("proxySet", "true");
         systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");

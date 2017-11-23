@@ -99,7 +99,6 @@ public class EDownloaderTest {
 	 */
 	@AfterClass
 	public static void downloadFileTestAfter() throws FileException{
-		
 			if(!isDirectEmpty()){
 				File file = new File(fileDir);
 				String[] directoryFiles=file.list();
@@ -109,5 +108,4 @@ public class EDownloaderTest {
 		           }
 			}
 		}
-
 }

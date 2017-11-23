@@ -51,67 +51,45 @@ public class EDownloader {
 		URLConnection connection = downloadSource.openConnection();
 		final InputStream downloadSourceStream=connection.getInputStream();
         try {
-            copyToFile(downloadSourceStream, destinationFile);
+        	copyContent(downloadSourceStream, destinationFile);
         } finally {
         	closeInputStream(downloadSourceStream);
         }
     }
 	
-	
-	public static void copyToFile(final InputStream source, final File destination) throws IOException {
+	/**
+	 * 
+	 * @param sourceStream
+	 * @param destination
+	 * @throws IOException
+	 */
+	public static void copyContent(final InputStream sourceStream, final File destination) throws IOException {
 		//Create a FileOutputStream for local file system where we want to save the file
-        final FileOutputStream output = openOutputStream(destination);
+		if (destination.exists()) {
+            if (destination.isDirectory()) {
+                throw new IOException(destination + " is a directory, not a valid file name");
+            }
+            if (destination.canWrite() == false) {
+                throw new IOException("The Program doesn't have enough permission to write to "+destination);
+            }
+        } 
+        final FileOutputStream outputStream = new FileOutputStream(destination);
+        //Finally method call to download from url
         try {
-        	copy(source, output);
-            output.close(); 
+        	readAndWrite(sourceStream, outputStream);
+        	outputStream.close(); 
         } finally {
-        	//done
-        	closeOutputStream(output);
+        	closeOutputStream(outputStream);
         }
     }
-	
-	 public static FileOutputStream openOutputStream(final File file) throws IOException {
-	        if (file.exists()) {
-	            if (file.isDirectory()) {
-	                throw new IOException("File '" + file + "' exists but is a directory");
-	            }
-	            if (file.canWrite() == false) {
-	                throw new IOException("File '" + file + "' cannot be written to");
-	            }
-	        } else {
-	            final File parent = file.getParentFile();
-	            if (parent != null) {
-	                if (!parent.mkdirs() && !parent.isDirectory()) {
-	                    throw new IOException("Directory '" + parent + "' could not be created");
-	                }
-	            }
-	        }
-	        return new FileOutputStream(file);
-	    }
-	 /**
-	  * 
-	  * @param input
-	  * @param output
-	  * @return
-	  * @throws IOException
-	  */
-	 public static int copy(InputStream input, OutputStream output)
-				throws IOException {
-			long count = copyLarge(input, output);
-			if (count > Integer.MAX_VALUE) {
-				return -1;
-			}
-			return (int) count;
-		}
 	 	/**
-	 	 * 
-	 	 * @param input
+	 	 * It takes an active InputStream and an active Output Stream to read from and write to
+	 	 * @param input 
 	 	 * @param output
 	 	 * @return
 	 	 * @throws IOException
 	 	 */
-		public static long copyLarge(InputStream input, OutputStream output)
-				throws IOException {
+		public static long readAndWrite(InputStream input, OutputStream output) throws IOException {
 			byte[] buffer = new byte[BUFFER_SIZE];
 			long count = 0;
 			int n = 0;

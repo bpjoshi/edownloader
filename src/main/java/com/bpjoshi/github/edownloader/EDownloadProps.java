@@ -68,5 +68,4 @@ public class EDownloadProps {
 	public void setBehindAProxy(boolean behindAProxy) {
 		this.behindAProxy = behindAProxy;
 	}
-	
 }

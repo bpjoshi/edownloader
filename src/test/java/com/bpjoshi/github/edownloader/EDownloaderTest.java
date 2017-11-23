@@ -70,7 +70,24 @@ public class EDownloaderTest {
 		assertFalse("The directory is empty", isDirectEmpty());
 		assertEquals("EmployeeTest.java is present", "EmployeeTest.java", getDownloadedFileName());
 	}
-
+	
+	/*
+	 * This code can be used with only java 8 
+	 * @Test
+	public void saveURLContentToFileWithPasswordTest() throws FileException, MalformedURLException, IOException{
+		EDownloadProps props=new EDownloadProps();
+		String locationToSaveWithFileName="src/main/resources/readme.md";
+		props.setBehindAProxy(true);
+		props.setSourceUrl("https://bitbucket.org/bpjoshi/personalwebsite/raw/4547658b0d2781f6ce66bcb97f9da86fbbfae38b/README.md");
+		props.setHttps_Proxy_Host("proxy08-master.noid.in.sopra");
+		props.setHttps_Proxy_Port("8080");
+		props.setUsername("write2bpj@gmail.com");
+		props.setPassword("#PartTimePassword007");
+		props.setFullFileName(locationToSaveWithFileName);
+		EDownloader.downloadFilePassword(props);
+		assertFalse("The directory is empty", isDirectEmpty());
+		assertEquals("README is present", "readme.md", getDownloadedFileName());
+	}*/
 	/**
 	 * @return boolean value to check if the test directory is empty
 	 * @throws FileException
@@ -97,7 +114,7 @@ public class EDownloaderTest {
 	 * It runs after all tests are run and deletes files from test directory
 	 * @throws FileException
 	 */
-	@AfterClass
+	/*@AfterClass
 	public static void downloadFileTestAfter() throws FileException{
 			if(!isDirectEmpty()){
 				File file = new File(fileDir);
@@ -107,5 +124,5 @@ public class EDownloaderTest {
 		               myFile.delete();
 		           }
 			}
-		}
+		}*/
 }

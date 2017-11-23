@@ -9,6 +9,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.Properties;
+import com.google.common.io.BaseEncoding;
+
 
 /**
  * @author bpjoshi(Bhagwati Prasad)
@@ -35,29 +37,41 @@ public class EDownloader {
 	public static void downloadFile(String url, String locationToSaveWithFileName, boolean behindAProxy)
 	throws MalformedURLException, IOException {
 		Properties systemSettings = System.getProperties();
-        systemSettings.put("proxySet", "true");
+        /*systemSettings.put("proxySet", "true");
         systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
-        systemSettings.put("https.proxyPort", "8080");
+        systemSettings.put("https.proxyPort", "8080");*/
         if(behindAProxy){
         	System.setProperty("java.net.useSystemProxies", "true");
         }
         System.setProperty("java.net.useSystemProxies", "true");
         saveURLContentToFile(new URL(url), new File(locationToSaveWithFileName));
 	}
-	
-	public static void downloadFilePassword(EDownloadProps props)
-			throws MalformedURLException, IOException {
+	/**
+	 * 
+	 * @param props
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 * Code commented below is compatible with java 8 and above
+	 */
+	/*public static void downloadFilePassword(final EDownloadProps props) throws MalformedURLException, IOException {
 				Properties systemSettings = System.getProperties();
-		        systemSettings.put("proxySet", "true");
-		        systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
-		        systemSettings.put("https.proxyPort", "8080");
-		        if(props.isBehindAProxy()){
+				if(props.isBehindAProxy()){
+			        systemSettings.put("proxySet", "true");
+			        systemSettings.put("https.proxyHost", props.getHttps_Proxy_Host());
+			        systemSettings.put("https.proxyPort", props.getHttps_Proxy_Port());
+			        systemSettings.put("http.proxyHost", props.getHttp_Proxy_Host());
+			        systemSettings.put("http.proxyPort", props.getHttp_Proxy_Port());
 		        	System.setProperty("java.net.useSystemProxies", "true");
 		        }
-		        System.setProperty("java.net.useSystemProxies", "true");
-		        saveURLContentToFile(new URL(props.getSourceUrl()), new File(props.getFullFileName()));
-			}
+		        saveURLContentToFileWithPassword(props);
+			}*/
 	
+	/**
+	 * 
+	 * @param downloadSource
+	 * @param destinationFile
+	 * @throws IOException
+	 */
 	public static void saveURLContentToFile(final URL downloadSource, final File destinationFile) throws IOException {
 		URLConnection connection = downloadSource.openConnection();
 		final InputStream downloadSourceStream=connection.getInputStream();
@@ -67,6 +81,25 @@ public class EDownloader {
         	closeInputStream(downloadSourceStream);
         }
     }
+	/**
+	 * @param downloadSource
+	 * @param destinationFile
+	 * @throws IOException
+	 * Commented code below is compatible with Java-8 only
+	 */
+	/*public static void saveURLContentToFileWithPassword(final EDownloadProps props) throws IOException {
+		URL downloadSource=new URL(props.getSourceUrl());
+		URLConnection connection = downloadSource.openConnection();
+		String authString=props.getUsername()+":"+props.getPassword();
+        String encoding =Base64.getEncoder().encodeToString(authString.getBytes());
+        connection.setRequestProperty("Authorization", "Basic " + encoding);
+		final InputStream downloadSourceStream=connection.getInputStream();
+        try {
+        	copyContent(downloadSourceStream, new File(props.getFullFileName()));
+        } finally {
+        	closeInputStream(downloadSourceStream);
+        }
+    }*/
 	
 	/**
 	 * 

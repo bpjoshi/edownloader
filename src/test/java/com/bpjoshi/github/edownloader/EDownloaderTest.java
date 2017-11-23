@@ -4,21 +4,23 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
-import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
+/**
+ *  Test Class for EDownloader
+ * @author bpjoshi(Bhagwati Prasad)
+ */
 public class EDownloaderTest {
 	
 	private static final String url="https://raw.githubusercontent.com/bpjoshi/java-8/master/src/com/bpjoshi/java8/introduction/EmployeeTest.java";
 	private static final String fileDir="src/main/resources";
+	
 	/**
-	 * This setup method deletes existing files from the directory
-	 * @throws Exception
+	 * This method gets called before each JUnit Test to delete the existing files from the directory
+	 * @throws FileException
 	 */
 	@Before
 	public void downloadFileTestBefore() throws FileException{
@@ -32,27 +34,41 @@ public class EDownloaderTest {
 		           }
 			}
 		}
-
+	
+	/**
+	 * Test for method downloadFile. This method doesn't require any authentication 
+	 * before download or any proxy settings 
+	 * @throws FileException
+	 */
 	@Test
 	public void downloadFileTest() throws FileException {
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
-		EDownloader.downloadFile(url, locationToSaveWithFileName);
+		EDownloader.downloadFile(url, locationToSaveWithFileName, false);
 		assertFalse("The directory is empty", isDirectEmpty());
 		assertEquals("EmployeeTest.java is present", "EmployeeTest.java", getDownloadedFileName());
 	}
-	
+	/**
+	 * This method shows how to set up proxies for downloading. You still don't have 
+	 * any authentication here however. This method shows proxy settings for HTTPS.
+	 * You could do the same with HTTP by changing properties  like https.proxyHost to http.proxyHost etc.
+	 * @throws FileException 
+	 */
 	@Test
-	public void downloadFileWithProxyEnhancedTest(){
+	public void downloadFileWithProxyTest() throws FileException{
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
 		Properties systemSettings = System.getProperties();
         systemSettings.put("proxySet", "true");
         systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
         systemSettings.put("https.proxyPort", "8080");
-		EDownloader.downloadFileEnhanced(url, locationToSaveWithFileName, true);
+		EDownloader.downloadFile(url, locationToSaveWithFileName, true);
+		assertFalse("The directory is empty", isDirectEmpty());
 		assertEquals("EmployeeTest.java is present", "EmployeeTest.java", getDownloadedFileName());
 	}
 
-	
+	/**
+	 * @return boolean value to check if the test directory is empty
+	 * @throws FileException
+	 */
 	public static boolean isDirectEmpty() throws FileException{
 		File file = new File(fileDir);
 		if(file.isDirectory()){
@@ -64,11 +80,17 @@ public class EDownloaderTest {
 		else throw new FileException("This is not a valid directory");
 	}
 	
+	/**
+	 * @return String name of the downloaded file.
+	 */
 	public String getDownloadedFileName(){
 		String[] directoryFiles=new File(fileDir).list();
 		return directoryFiles[0];
 	}
-	
+	/**
+	 * It runs after all tests are run and deletes files from test directory
+	 * @throws FileException
+	 */
 	@AfterClass
 	public static void downloadFileTestAfter() throws FileException{
 		

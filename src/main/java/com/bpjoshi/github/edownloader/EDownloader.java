@@ -8,53 +8,39 @@ import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Map;
 import java.util.Properties;
 
 /**
  * @author bpjoshi(Bhagwati Prasad)
  */
 public class EDownloader {
-	private static final int DEFAULT_BUFFER_SIZE = 1024 * 4;
-	public static void main(String[] args) {
-		
-		String url="https://www.uop.edu.jo/download/research/members/oxford_guide_to_english_grammar.pdf";
-		//Setting up proxies
-		Properties systemSettings = System.getProperties();
-        systemSettings.put("proxySet", "true");
-        systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
-        systemSettings.put("https.proxyPort", "8080");
-        System.setProperty("java.net.useSystemProxies", "true");
-        try {
-        	saveURLToFile(new URL(url), new File("src/main/resources/englishgrammar.pdf"));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	
-	}
+
+	private static final int BUFFER_SIZE = 1024 * 4;
 	
 	/**
-	 * 
-	 * @param url
-	 * @param locationToSaveFile
 	 * 1. url: Enter full url of the file content to be downloaded. For example : 
 	 * 				https://www.uop.edu.jo/download/research/members/oxford_guide_to_english_grammar.pdf
 	 * 2. locationToSaveFile: Enter full name of the location where you want to save the file:
 	 * 				(classpath of your maven project: ) <quote>src/main/resources/englishgrammar.pdf</quote>
 	 * 				(location relative to your current program: ) <quote>../../bpjoshi/englishgrammar.pdf</quote>
 	 * 				(absolute path: ) <quote>d:/myfiles/main/resources/englishgrammar.pdf</quote>
-	 * 3. Use this method when there is to be used when there is no authentication. The URL can be either https or http
+	 * 3. behindAProxy: If you are behind a proxy, provide proxy settings and set this flag to true
+	 * 4. Use this method when there is to be used when there is no authentication. The URL can be either https or http
+	 * 
+	 * @param url
+	 * @param locationToSaveFile
+	 * @param behindAProxy
 	 */
-	public static void downloadFile(String url, String locationToSaveWithFileName) {
+	public static void downloadFile(String url, String locationToSaveWithFileName, boolean behindAProxy) {
 		
 		//Setting up proxies
 		Properties systemSettings = System.getProperties();
         systemSettings.put("proxySet", "true");
         systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
         systemSettings.put("https.proxyPort", "8080");
+        if(behindAProxy){
+        	System.setProperty("java.net.useSystemProxies", "true");
+        }
         System.setProperty("java.net.useSystemProxies", "true");
         try {
         	saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
@@ -67,20 +53,7 @@ public class EDownloader {
 	
 	}
 	
-	public static void downloadFileEnhanced(String url, String locationToSaveWithFileName, boolean b) {
-		
-        
-        System.setProperty("java.net.useSystemProxies", "true");
-        try {
-        	saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
 	
-	}
 	/**
 	 * 
 	 * @param source
@@ -180,7 +153,7 @@ public class EDownloader {
 	 	 */
 		public static long copyLarge(InputStream input, OutputStream output)
 				throws IOException {
-			byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
+			byte[] buffer = new byte[BUFFER_SIZE];
 			long count = 0;
 			int n = 0;
 			while (-1 != (n = input.read(buffer))) {

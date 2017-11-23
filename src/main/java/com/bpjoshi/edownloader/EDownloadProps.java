@@ -11,7 +11,7 @@ package com.bpjoshi.edownloader;
  * 				(eg. location relative to your current program: ) <quote>../../bpjoshi/englishgrammar.pdf</quote>
  * 				(eg. absolute path: ) <quote>d:/myfiles/main/resources/englishgrammar.pdf</quote>
  * 3. behindAProxy: If you are behind a proxy, provide proxy settings and set this flag to true
- * 4. Use this method when there is to be used when there is no authentication. The URL can be either https or http
+ * 
  * 
  */
 public class EDownloadProps {

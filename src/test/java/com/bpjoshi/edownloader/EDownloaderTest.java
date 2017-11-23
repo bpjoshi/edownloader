@@ -41,13 +41,13 @@ public class EDownloaderTest {
 		}
 	
 	/**
-	 * Test for method downloadFile. This method doesn't require any authentication 
-	 * before download or any proxy settings. If you are behind a Proxy, comment this Test Case.
+	 * <b>If you are behind a Proxy, comment this Test Case.</b>
+	 *  A Test for method downloadFile.
 	 * @throws FileException
 	 * @throws IOException 
 	 * @throws MalformedURLException 
 	 */
-	/*@Test
+	@Test
 	public void downloadFileTest() throws FileException, MalformedURLException, IOException {
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
 		EDownloadProps props=new EDownloadProps();
@@ -56,8 +56,9 @@ public class EDownloaderTest {
 		EDownloader.downloadFile(props);
 		assertFalse("The directory is empty", isDirectEmpty());
 		assertEquals("EmployeeTest.java is present", "EmployeeTest.java", getDownloadedFileName());
-	}*/
+	}
 	/**
+	 * <b>If you are NOT behind a Proxy, comment this Test Case.</b>
 	 * This method shows how to set up proxies for downloading. You still don't have 
 	 * any authentication here however. This method shows proxy settings for HTTPS.
 	 * You could do the same with HTTP by changing properties  like https.proxyHost to http.proxyHost etc.
@@ -69,11 +70,11 @@ public class EDownloaderTest {
 	public void downloadFileWithProxyTest() throws FileException, MalformedURLException, IOException{
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
 		EDownloadProps props=new EDownloadProps();
+		props.setBehindAProxy(true);
 		props.setFullFileName(locationToSaveWithFileName);
-		Properties systemSettings = System.getProperties();
 		props.setHttps_Proxy_Host("proxy08-master.noid.in.sopra");
 		props.setHttps_Proxy_Port("8080");
-        
+        props.setSourceUrl(url);
 		EDownloader.downloadFile(props);
 		assertFalse("The directory is empty", isDirectEmpty());
 		assertEquals("EmployeeTest.java is present", "EmployeeTest.java", getDownloadedFileName());

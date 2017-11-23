@@ -29,7 +29,6 @@ public class EDownloader {
 		Properties systemSettings = System.getProperties();
         if(props.isBehindAProxy()){
         	systemSettings.put("proxySet", "true");
-        	System.setProperty("java.net.useSystemProxies", "true");
         	if(props.getHttps_Proxy_Host()!=null && props.getHttps_Proxy_Port()!=null){
         		systemSettings.put("https.proxyHost", props.getHttps_Proxy_Host());
                 systemSettings.put("https.proxyPort", props.getHttps_Proxy_Port());
@@ -38,6 +37,7 @@ public class EDownloader {
         		systemSettings.put("http.proxyHost", props.getHttp_Proxy_Host());
                 systemSettings.put("http.proxyPort", props.getHttp_Proxy_Port());
         	}
+        	System.setProperty("java.net.useSystemProxies", "true");
         }
         saveURLContentToFile(new URL(props.getSourceUrl()), new File(props.getFullFileName()));
 	}

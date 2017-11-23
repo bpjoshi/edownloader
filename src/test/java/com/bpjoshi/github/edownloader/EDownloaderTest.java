@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.Properties;
 
 import org.junit.AfterClass;
@@ -39,9 +41,11 @@ public class EDownloaderTest {
 	 * Test for method downloadFile. This method doesn't require any authentication 
 	 * before download or any proxy settings 
 	 * @throws FileException
+	 * @throws IOException 
+	 * @throws MalformedURLException 
 	 */
 	@Test
-	public void downloadFileTest() throws FileException {
+	public void downloadFileTest() throws FileException, MalformedURLException, IOException {
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
 		EDownloader.downloadFile(url, locationToSaveWithFileName, false);
 		assertFalse("The directory is empty", isDirectEmpty());
@@ -52,9 +56,11 @@ public class EDownloaderTest {
 	 * any authentication here however. This method shows proxy settings for HTTPS.
 	 * You could do the same with HTTP by changing properties  like https.proxyHost to http.proxyHost etc.
 	 * @throws FileException 
+	 * @throws IOException 
+	 * @throws MalformedURLException 
 	 */
 	@Test
-	public void downloadFileWithProxyTest() throws FileException{
+	public void downloadFileWithProxyTest() throws FileException, MalformedURLException, IOException{
 		String locationToSaveWithFileName="src/main/resources/EmployeeTest.java";
 		Properties systemSettings = System.getProperties();
         systemSettings.put("proxySet", "true");

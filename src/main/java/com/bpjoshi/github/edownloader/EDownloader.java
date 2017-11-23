@@ -11,6 +11,7 @@ import java.net.URLConnection;
 import java.util.Properties;
 
 /**
+ * All the exceptions are declared in throws are supposed to be handled by you.
  * @author bpjoshi(Bhagwati Prasad)
  */
 public class EDownloader {
@@ -31,7 +32,8 @@ public class EDownloader {
 	 * @param locationToSaveFile
 	 * @param behindAProxy
 	 */
-	public static void downloadFile(String url, String locationToSaveWithFileName, boolean behindAProxy) {
+	public static void downloadFile(String url, String locationToSaveWithFileName, boolean behindAProxy)
+	throws MalformedURLException, IOException {
 		
 		//Setting up proxies
 		Properties systemSettings = System.getProperties();
@@ -42,15 +44,7 @@ public class EDownloader {
         	System.setProperty("java.net.useSystemProxies", "true");
         }
         System.setProperty("java.net.useSystemProxies", "true");
-        try {
-        	saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	
+        saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
 	}
 	
 	

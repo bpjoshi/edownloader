@@ -1,4 +1,4 @@
-package com.bpjoshi.github.edownloader;
+package com.bpjoshi.edownloader;
 
 import java.io.IOException;
 

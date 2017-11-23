@@ -67,34 +67,6 @@ public class EDownloader {
 	
 	}
 	
-	public static void downloadFile(String url, String locationToSaveWithFileName, Map<String, String> proxySettings) {
-		Properties systemSettings = System.getProperties();
-        systemSettings.put("proxySet", "true");
-        //HTTPS
-        if(proxySettings.containsKey(EDownloadConstant.HTTPS_PROXY_HOST))
-        	systemSettings.put("https.proxyHost", proxySettings.get(EDownloadConstant.HTTPS_PROXY_HOST));
-        if(proxySettings.containsKey(EDownloadConstant.HTTPS_PROXY_PORT))
-        	systemSettings.put("https.proxyPort", proxySettings.get(EDownloadConstant.HTTPS_PROXY_PORT));
-        //HTP
-        if(proxySettings.containsKey(EDownloadConstant.HTTP_PROXY_HOST))
-        	systemSettings.put("http.proxyHost", proxySettings.get(EDownloadConstant.HTTP_PROXY_HOST));
-        if(proxySettings.containsKey(EDownloadConstant.HTTP_PROXY_PORT))
-        	systemSettings.put("http.proxyPort", proxySettings.get(EDownloadConstant.HTTP_PROXY_PORT));
-        
-        System.setProperty("java.net.useSystemProxies", "true");
-        try {
-        	saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	
-	}
-	
-	
-	
 	public static void downloadFileEnhanced(String url, String locationToSaveWithFileName, boolean b) {
 		
         

@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 public class EDownloaderTest {
@@ -52,7 +53,7 @@ public class EDownloaderTest {
 	}
 
 	
-	public boolean isDirectEmpty() throws FileException{
+	public static boolean isDirectEmpty() throws FileException{
 		File file = new File(fileDir);
 		if(file.isDirectory()){
 			if(file.list().length>0){
@@ -67,5 +68,18 @@ public class EDownloaderTest {
 		String[] directoryFiles=new File(fileDir).list();
 		return directoryFiles[0];
 	}
+	
+	@AfterClass
+	public static void downloadFileTestAfter() throws FileException{
+		
+			if(!isDirectEmpty()){
+				File file = new File(fileDir);
+				String[] directoryFiles=file.list();
+				for (int i=0; i<directoryFiles.length; i++) {
+		               File myFile = new File(file, directoryFiles[i]); 
+		               myFile.delete();
+		           }
+			}
+		}
 
 }

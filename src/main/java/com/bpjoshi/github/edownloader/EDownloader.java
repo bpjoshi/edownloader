@@ -44,68 +44,33 @@ public class EDownloader {
         	System.setProperty("java.net.useSystemProxies", "true");
         }
         System.setProperty("java.net.useSystemProxies", "true");
-        saveURLToFile(new URL(url), new File(locationToSaveWithFileName));
+        saveURLContentToFile(new URL(url), new File(locationToSaveWithFileName));
 	}
 	
-	
-	/**
-	 * 
-	 * @param source
-	 * @param destination
-	 * @throws IOException
-	 */
-	public static void saveURLToFile(final URL source, final File destination) throws IOException {
-		URLConnection connection = source.openConnection();
-        copyInputStreamToFile(connection.getInputStream(), destination);
-    }
-	/**
-	 * 
-	 * @param source
-	 * @param destination
-	 * @throws IOException
-	 */
-	public static void copyInputStreamToFile(final InputStream source, final File destination) throws IOException {
+	public static void saveURLContentToFile(final URL downloadSource, final File destinationFile) throws IOException {
+		URLConnection connection = downloadSource.openConnection();
+		final InputStream downloadSourceStream=connection.getInputStream();
         try {
-            copyToFile(source, destination);
+            copyToFile(downloadSourceStream, destinationFile);
         } finally {
-        	//done
-        	closeQuietly(source);
+        	closeInputStream(downloadSourceStream);
         }
     }
-	/**
-	 * 
-	 * @param source
-	 * @param destination
-	 * @throws IOException
-	 */
+	
+	
 	public static void copyToFile(final InputStream source, final File destination) throws IOException {
+		//Create a FileOutputStream for local file system where we want to save the file
         final FileOutputStream output = openOutputStream(destination);
         try {
-        	//done
         	copy(source, output);
-            output.close(); // don't swallow close Exception if copy completes normally
+            output.close(); 
         } finally {
         	//done
-        	closeQuietly(output);
+        	closeOutputStream(output);
         }
     }
-	/**
-	 * 
-	 * @param file
-	 * @return
-	 * @throws IOException
-	 */
-	public static FileOutputStream openOutputStream(final File file) throws IOException {
-        return openOutputStream(file, false);
-    }
-	/**
-	 * 
-	 * @param file
-	 * @param append
-	 * @return
-	 * @throws IOException
-	 */
-	 public static FileOutputStream openOutputStream(final File file, final boolean append) throws IOException {
+	
+	 public static FileOutputStream openOutputStream(final File file) throws IOException {
 	        if (file.exists()) {
 	            if (file.isDirectory()) {
 	                throw new IOException("File '" + file + "' exists but is a directory");
@@ -121,7 +86,7 @@ public class EDownloader {
 	                }
 	            }
 	        }
-	        return new FileOutputStream(file, append);
+	        return new FileOutputStream(file);
 	    }
 	 /**
 	  * 
@@ -157,29 +122,29 @@ public class EDownloader {
 			return count;
 		}
 		/**
-		 * 
+		 * Closes InputStream
 		 * @param input
 		 */
-		public static void closeQuietly(InputStream input) {
+		public static void closeInputStream(InputStream input) {
 			try {
 				if (input != null) {
 					input.close();
 				}
-			} catch (IOException ioe) {
-				// ignore
+			} catch (IOException ex) {
+				ex.printStackTrace();
 			}
 		}
 		/**
-		 * 
+		 * Closes OutputStream
 		 * @param output
 		 */
-		public static void closeQuietly(OutputStream output) {
+		public static void closeOutputStream(OutputStream output) {
 	        try {
 	            if (output != null) {
 	                output.close();
 	            }
-	        } catch (IOException ioe) {
-	            // ignore
+	        } catch (IOException ex) {
+	            ex.printStackTrace();
 	        }
 	    }
 	 

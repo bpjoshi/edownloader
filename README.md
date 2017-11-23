@@ -1,4 +1,6 @@
 # edownloader
 An efficient and easy downloader for  downloading contents from URL. 
 
-To be written...
+Docs page at : https://bpjoshi.github.io/edownloader/index
+
+Yet to be written...

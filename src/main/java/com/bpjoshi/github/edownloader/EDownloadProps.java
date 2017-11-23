@@ -13,6 +13,7 @@ public class EDownloadProps {
 	private String http_Proxy_Host;
 	private String https_Proxy_Port;
 	private String http_Proxy_Port;
+	private boolean behindAProxy;
 	public String getSourceUrl() {
 		return sourceUrl;
 	}
@@ -61,4 +62,11 @@ public class EDownloadProps {
 	public void setHttp_Proxy_Port(String http_Proxy_Port) {
 		this.http_Proxy_Port = http_Proxy_Port;
 	}
+	public boolean isBehindAProxy() {
+		return behindAProxy;
+	}
+	public void setBehindAProxy(boolean behindAProxy) {
+		this.behindAProxy = behindAProxy;
+	}
+	
 }

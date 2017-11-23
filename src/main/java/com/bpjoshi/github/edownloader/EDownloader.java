@@ -45,6 +45,19 @@ public class EDownloader {
         saveURLContentToFile(new URL(url), new File(locationToSaveWithFileName));
 	}
 	
+	public static void downloadFilePassword(EDownloadProps props)
+			throws MalformedURLException, IOException {
+				Properties systemSettings = System.getProperties();
+		        systemSettings.put("proxySet", "true");
+		        systemSettings.put("https.proxyHost", "proxy08-master.noid.in.sopra");
+		        systemSettings.put("https.proxyPort", "8080");
+		        if(props.isBehindAProxy()){
+		        	System.setProperty("java.net.useSystemProxies", "true");
+		        }
+		        System.setProperty("java.net.useSystemProxies", "true");
+		        saveURLContentToFile(new URL(props.getSourceUrl()), new File(props.getFullFileName()));
+			}
+	
 	public static void saveURLContentToFile(final URL downloadSource, final File destinationFile) throws IOException {
 		URLConnection connection = downloadSource.openConnection();
 		final InputStream downloadSourceStream=connection.getInputStream();

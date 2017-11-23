@@ -1,15 +1,17 @@
 package com.bpjoshi.edownloader;
 /**
- * Class for setting properties for file to be downloaded.
+ * The Class for setting properties of your download..
  * @author bpjoshi(Bhagwati Prasad)
  * 
  *	Description of Arguments to downloadFile method:
  * 1. sourceUrl: Enter full url of the file content to be downloaded. For example : 
  * 				https://www.uop.edu.jo/download/research/members/oxford_guide_to_english_grammar.pdf
+ * 
  * 2. locationToSaveFile: Enter full name of the location where you want to save the file:
  * 				(eg. classpath of your maven project: ) <quote>src/main/resources/englishgrammar.pdf</quote>
  * 				(eg. location relative to your current program: ) <quote>../../bpjoshi/englishgrammar.pdf</quote>
  * 				(eg. absolute path: ) <quote>d:/myfiles/main/resources/englishgrammar.pdf</quote>
+ * 
  * 3. behindAProxy: If you are behind a proxy, provide proxy settings and set this flag to true
  * 
  * 

@@ -12,6 +12,8 @@ import java.util.Properties;
 
 
 /**
+ * The class contains methods for downloading files from remote URL.
+ * 
  * @author bpjoshi(Bhagwati Prasad)
  */
 public class EDownloader {
@@ -87,7 +89,7 @@ public class EDownloader {
 	 	 * It takes an active InputStream and an active Output Stream to read from and write to
 	 	 * @param input 
 	 	 * @param output
-	 	 * @return
+	 	 * @return long
 	 	 * @throws IOException
 	 	 */
 		public static long readAndWrite(InputStream input, OutputStream output) throws IOException {
